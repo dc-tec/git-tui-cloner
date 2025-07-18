@@ -3,12 +3,23 @@ pub struct Repository {
     pub id: String,
     pub name: String,
     pub full_name: String,
-    pub description: String,
+    pub description: Option<String>,
     pub clone_url: String,
     pub ssh_url: String,
     pub stars: u32,
     pub forks: u32,
     pub private: bool,
+    pub clone_type: CloneType,
+}
+
+pub struct GitCloneType {
+    pub url: String,
+    pub clone_type: CloneType,
+}
+
+pub enum CloneType {
+    HTTPS,
+    SSH,
 }
 
 #[derive(Debug)]
@@ -24,6 +35,7 @@ pub enum AppError {
     AuthenticationError(String),
     ConfigError(String),
     GitError(String),
+    ServiceWarning(String), // Include warnings as errors for now
 }
 
 impl std::fmt::Display for AppError {
@@ -33,6 +45,7 @@ impl std::fmt::Display for AppError {
             AppError::AuthenticationError(e) => write!(f, "Authentication error: {}", e),
             AppError::ConfigError(e) => write!(f, "Configuration error: {}", e),
             AppError::GitError(e) => write!(f, "Git error: {}", e),
+            AppError::ServiceWarning(e) => write!(f, "Service warning: {}", e),
         }
     }
 }

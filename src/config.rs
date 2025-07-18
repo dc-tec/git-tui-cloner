@@ -6,6 +6,7 @@ use std::path::PathBuf;
 pub struct Config {
     pub github_token: Option<String>,
     pub gitlab_token: Option<String>,
+    pub ssh_key: Option<String>,
     pub gitlab_instance: Vec<GitLabInstance>,
     pub default_clone_path: PathBuf,
 }
@@ -22,6 +23,7 @@ impl Default for Config {
         Self {
             github_token: None,
             gitlab_token: None,
+            ssh_key: None,
             default_clone_path: dirs::home_dir()
                 .map(|home| home.join("projects"))
                 .unwrap_or_else(|| PathBuf::from("./projects")),
